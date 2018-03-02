@@ -30,6 +30,9 @@
  */
 @property (nonatomic, assign) CGFloat cachedAdImagesMaxSize;
 
+/**
+ A block object to be executed when tap the advertisement.
+ */
 @property (nonatomic, copy) void(^tapAdBlock)(NSString *adURLString);
 
 + (instancetype)sharedAdvertisementLoader;
