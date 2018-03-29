@@ -67,29 +67,28 @@ stringByAppendingPathComponent:NSStringFromClass([self class])]
         _countdown = 3.0;
         _onlyLaunchShowAd = YES;
         _cachedAdImagesMaxSize = 10.0;
+     
         // register notifications
-        {
-            // after application launch, keywindow and rootViewController already there, the system will post UIApplicationDidFinishLaunchingNotification notification
-            [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-                [self requestAdData];
-                if ([self isFirstLaunchApp]) {
-                    return;
-                }
+        // after application launch, keywindow and rootViewController already there, the system will post UIApplicationDidFinishLaunchingNotification notification
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+            [self requestAdData];
+            if ([self isFirstLaunchApp]) {
+                return;
+            }
+            [self showAdvertisement];
+        }];
+        
+        // into the background notification
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+            [self requestAdData];
+        }];
+        
+        // into the foreground notification(application launch does not post this notification)
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+            if (!self.onlyLaunchShowAd) {
                 [self showAdvertisement];
-            }];
-            
-            // into the background notification
-            [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-                [self requestAdData];
-            }];
-            
-            // into the foreground notification(application launch does not post this notification)
-            [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-                if (!self.onlyLaunchShowAd) {
-                    [self showAdvertisement];
-                }
-            }];
-        }
+            }
+        }];
     }
     return self;
 }
@@ -131,7 +130,7 @@ stringByAppendingPathComponent:NSStringFromClass([self class])]
     // set the window to the top, to prevent the UIAlertView popup cover
     window.windowLevel = UIWindowLevelStatusBar + 1;
     
-    // The hidden value of window defaults is YES
+    // the hidden value of window defaults is YES
     window.hidden = NO;
     window.alpha = 1;
     
