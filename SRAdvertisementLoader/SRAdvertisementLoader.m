@@ -101,8 +101,13 @@ stringByAppendingPathComponent:NSStringFromClass([self class])]
                                                                           return;
                                                                       }
                                                                       NSDictionary *respData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-                                                                      
+                                                                      if (!respData[@"data"]) {
+                                                                          return;
+                                                                      }
                                                                       NSString *adImageURLString = respData[@"data"][@"advertising_url"];
+                                                                      if (!adImageURLString) {
+                                                                          return;
+                                                                      }
                                                                       [self downloadAdImageURLString:adImageURLString];
                                                                       
                                                                       NSString *adURLString = respData[@"data"][@"data_url"];

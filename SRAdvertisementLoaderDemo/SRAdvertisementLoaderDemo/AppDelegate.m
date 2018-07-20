@@ -23,11 +23,11 @@
 //    [SRAdvertisementLoader sharedAdvertisementLoader].countdown = 5.0;
 //    [SRAdvertisementLoader sharedAdvertisementLoader].onlyLaunchShowAd = NO;
 //    [SRAdvertisementLoader sharedAdvertisementLoader].cachedAdImagesMaxSize = 100;
-    [SRAdvertisementLoader sharedAdvertisementLoader].tapAdBlock = ^(NSString *adURLString) {
-        CommonWebViewController *commonWebVC = [CommonWebViewController new];
-        commonWebVC.URLString = adURLString;
-        [[self.window.rootViewController findNavigationController] pushViewController:commonWebVC animated:YES];
-    };
+//    [SRAdvertisementLoader sharedAdvertisementLoader].tapAdBlock = ^(NSString *adURLString) {
+//        CommonWebViewController *commonWebVC = [CommonWebViewController new];
+//        commonWebVC.URLString = adURLString;
+//        [[self.window.rootViewController findNavigationController] pushViewController:commonWebVC animated:YES];
+//    };
     return YES;
 }
 
